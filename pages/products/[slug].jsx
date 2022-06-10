@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { BsFillHeartFill } from "react-icons/bs";
 
-const Post = () => {
+const Post = ({ addToCart }) => {
   const router = useRouter();
   const { slug } = router.query;
   const [pin, setPin] = useState("");
@@ -12,8 +12,6 @@ const Post = () => {
     let pins = await fetch("http://localhost:3000/api/pincode");
     let pinJson = await pins.json();
     pinJson.includes(parseInt(pin)) ? setService(true) : setService(false);
-    console.log(service);
-    console.log(pin);
   };
   return (
     <section className="text-gray-600 body-font overflow-hidden">
@@ -173,11 +171,14 @@ const Post = () => {
               <span className="title-font font-medium text-2xl text-gray-900">
                 $58.00
               </span>
-              <br/>
+              <br />
               <button className="mt-2 text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded">
                 Buy Now
               </button>
-              <button className="mt-2 ml-2 text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded">
+              <button
+                className="mt-2 ml-2 text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
+                onClick={() => addToCart(slug, 1, 499, "Wear the code", 'XL', 'RED')}
+              >
                 Add to Cart
               </button>
               <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4 active:text-red-600">
@@ -197,18 +198,18 @@ const Post = () => {
               >
                 Check
               </button>
-              </div>
-              <br />
-              {service && service !== null ? (
-                <span className="p-2 my-2 text-green-500 rounded">
-                  Location is avalable!
-                </span>
-              ) : null}
-              {!service && service !== null ? (
-                <span className="p-2 rounded text-red-700">
-                  Location is not avaliable!
-                </span>
-              ) : null}
+            </div>
+            <br />
+            {service && service !== null ? (
+              <span className="p-2 my-2 text-green-500 rounded">
+                Location is avalable!
+              </span>
+            ) : null}
+            {!service && service !== null ? (
+              <span className="p-2 rounded text-red-700">
+                Location is not avaliable!
+              </span>
+            ) : null}
           </div>
         </div>
       </div>
